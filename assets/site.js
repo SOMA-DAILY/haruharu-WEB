@@ -17,6 +17,20 @@
     if (to) { a.href = to; a.target = '_blank'; a.rel = 'noopener'; }
   });
 
+  // 후기 띠: 한 벌을 이어 붙여 끊김 없이 흐르게. 움직임 줄이기 설정이면 손으로 넘김
+  var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  [].forEach.call(d.querySelectorAll('[data-mq]'), function (mq) {
+    var tr = mq.firstElementChild;
+    if (!tr || calm) return;
+    [].forEach.call(tr.children, function (li) {
+      var c = li.cloneNode(true); c.setAttribute('aria-hidden', 'true'); tr.appendChild(c);
+    });
+    mq.style.setProperty('--mq-dur', Math.round(tr.scrollWidth / 2 / 40) + 's');
+    mq.classList.add('is-run');
+    mq.addEventListener('touchstart', function () { mq.classList.add('is-hold'); }, { passive: true });
+    mq.addEventListener('touchend', function () { mq.classList.remove('is-hold'); }, { passive: true });
+  });
+
   // 스크롤하면 떠오르기
   var els = d.querySelectorAll('.rv');
   if (!('IntersectionObserver' in window)) { [].forEach.call(els, function (e) { e.classList.add('in'); }); return; }

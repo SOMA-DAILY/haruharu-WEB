@@ -404,6 +404,39 @@ html[lang="en"] .brand { font-family: var(--display); font-size: 20px; font-weig
 /* 스크롤하면 떠오르기. 스크립트가 꺼져 있으면 처음부터 보인다 */
 .js .rv { opacity: 0; transform: translateY(18px); transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); }
 .js .rv.in { opacity: 1; transform: none; }
+/* 소개팅 신청하기 (머리말, 앱 다운로드 옆) */
+.btn-apply { background: #fff; color: var(--brand-strong); box-shadow: inset 0 0 0 1.5px var(--brand-strong); }
+.btn-apply:hover { background: var(--sky2); }
+.apply-short { display: none; }
+@media (max-width: 480px) {
+  .hd .btn { padding: 0 13px; font-size: 14px; }
+  .apply-full { display: none; }
+  .apply-short { display: inline; }
+}
+@media (max-width: 380px) {
+  .hd-in { gap: 6px; }
+  .hd-act { gap: 2px; }
+  .lang { padding: 8px 6px; }
+  .hd .btn { height: 40px; padding: 0 11px; font-size: 13.5px; }
+  .brand { font-size: 18px; gap: 6px; }
+  .brand img { width: 30px; height: 30px; }
+}
+
+/* 후기 띠: 신청 페이지처럼 가로로 천천히 흐름, 손대면 멈춤 */
+.rev-mq { position: relative; margin: 24px 0 0; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.rev-mq .rev-list { display: flex; align-items: stretch; gap: 14px; width: max-content; margin: 0; padding: 6px 0 14px; columns: auto; }
+.rev-mq .rev { display: flex; flex-direction: column; justify-content: space-between; width: 250px; margin: 0; }
+.rev-mq .rev-l { width: 310px; }
+.rev-mq .rev blockquote { flex: 1; padding: 18px 20px; }
+.rev-mq .rev p { font-size: 15px; }
+.rev-mq.is-run .rev-list { animation: rev-flow var(--mq-dur, 120s) linear infinite; }
+.rev-mq.is-run:hover .rev-list, .rev-mq.is-hold .rev-list { animation-play-state: paused; }
+@keyframes rev-flow { to { transform: translateX(-50%); } }
+@media (min-width: 900px) {
+  .rev-mq { margin-top: 30px; }
+  .rev-mq .rev blockquote { padding: 20px 22px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .js .rv { opacity: 1; transform: none; transition: none; }
@@ -413,4 +446,9 @@ html[lang="en"] .brand { font-family: var(--display); font-size: 20px; font-weig
 @media print {
   .hd, .skip { display: none; }
   .js .rv { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rev-mq { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+  .rev-mq .rev-list { padding-left: 16px; padding-right: 16px; }
 }
